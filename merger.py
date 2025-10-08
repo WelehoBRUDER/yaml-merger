@@ -21,7 +21,7 @@ class YamlMerger:
             file = open(self.read_dir + "\\" + filename, "r")
             merged.write(f"{get_name(filename)}:\n")
             for line in file:
-                print(line)
+                merged.write(f"  {line}")
             file.close()
 
         merged.close()
