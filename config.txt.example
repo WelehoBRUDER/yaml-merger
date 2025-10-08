@@ -1,2 +1,3 @@
 read_directory=
 write_directory=
+sort_files=True
