@@ -27,8 +27,7 @@ class YamlReader:
         self.files["files"] = []
         self.files = self.read_directory_to_object(self.read_directory, 1)
         self.elapsed = time.perf_counter() - start_time
-        print(f"Found {self.file_count} YAML files in {self.read_directory}.")
-        pprint(self.files)
+        print(f"Found {self.file_count} YAML files in {self.directory_count} folders.")
 
     def read_directory_to_object(self, path, depth):
         if depth > self.search_depth:
