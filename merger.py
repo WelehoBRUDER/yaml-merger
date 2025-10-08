@@ -48,42 +48,27 @@ class YamlMerger:
             Path(current_path).mkdir(parents=True, exist_ok=True)
             merged = open(f"{current_path}\\{name}.yaml", "w")
             for index, filename in enumerate(obj["files"]):
-                indexing
+                line_index = 1
                 try:
                     file = open(f"{self.read_dir}\\{path}\\{filename}", "r")
-                    merged.write(f"{filename}:\n")
+                    merged.write(f"{get_name(filename)}:\n")
                     for line in file:
                         merged.write(f"  {line}")
+                        line_index += 1
                     file.close()
                 except Exception:
                     print(f"\033[91mERROR! FAILED TO MERGE {filename}")
+                    print(f"\033[91mTHE ERROR OCCURED ON LINE {line_index}")
                     print(f"Path to file -> {self.read_dir}\\{path}\\{filename}\033[92m")
                     self.fails += 1
                 print(f"Merged {index + 1}/{file_count} ({filename})")
+            if self.convert_to_JSON:
+                print(f"\033[96mStarting to convert {name}.yaml to JSON...")
+                merged.close()
+                merged = open(f"{current_path}\\{name}.yaml", "r")
+                json_path = f"{current_path}\\{name}.json"
+                converted = open(json_path, "w")
+                yaml_object = yaml.safe_load(merged)
+                json.dump(yaml_object, converted)
+                print(f"Conversion complete! {name}.yaml --> {name}.json\033[92m")
             merged.close()
-
-
-    # def merge_files(self):
-    #     start_time = time.perf_counter()
-    #     path = self.write_dir + f"\\{get_dir_name(self.read_dir)}.yaml"
-    #     merged = open(path, "w")
-    #     for index, filename in enumerate(self.files):
-    #         file = open(self.read_dir + "\\" + filename, "r")
-    #         merged.write(f"{get_name(filename)}:\n")
-    #         for line in file:
-    #             merged.write(f"  {line}")
-    #         file.close()
-    #         print(f"Merged {index + 1}/{len(self.files)} ({filename})")
-    #
-    #     print(f"Complete! Merged {len(self.files)} files to {get_dir_name(self.read_dir)}.yaml")
-    #     if self.convert_to_JSON:
-    #         merged.close()
-    #         merged = open(path, "r")
-    #         Path(self.write_dir + "\\json").mkdir(parents=True, exist_ok=True)
-    #         json_path = self.write_dir + f"\\json\\{get_dir_name(self.read_dir)}.json"
-    #         converted = open(json_path, "w")
-    #         yaml_object = yaml.safe_load(merged)
-    #         json.dump(yaml_object, converted)
-    #         print(f"Conversion complete! {get_dir_name(self.read_dir)}.yaml --> {get_dir_name(self.read_dir)}.json")
-    #     self.elapsed = time.perf_counter() - start_time
-    #     merged.close()
