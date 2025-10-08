@@ -1,3 +1,4 @@
 read_directory=
 write_directory=
 sort_files=True
+convert_to_JSON=False
