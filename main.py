@@ -7,6 +7,7 @@ def main():
     files = reader.read_files()
     merger = YamlMerger(files, reader.read_directory, reader.write_directory)
     merger.merge_files()
+    print(f"Took {(reader.elapsed + merger.elapsed):.4f}s in total (read {reader.get_elapsed()}, merge {merger.get_elapsed()})")
 
 
 if __name__ == '__main__':
